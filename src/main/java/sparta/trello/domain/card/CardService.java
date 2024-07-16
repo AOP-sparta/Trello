@@ -132,7 +132,7 @@ public class CardService {
         }
 
     }
-
+  
     private void availableCheck(Board board, User user) {
         if(Objects.equals(board.getUser().getNickname(), user.getNickname())){
             return;
