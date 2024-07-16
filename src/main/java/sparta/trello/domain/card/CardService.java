@@ -134,17 +134,14 @@ public class CardService {
     }
 
     private void availableCheck(Board board, User user) {
-        if(!board.getUser().equals(user)){
-            throw new CustomException(ErrorCode.NOT_PERMISSION);
+        if(Objects.equals(board.getUser().getNickname(), user.getNickname())){
+            return;
         }
 
-        checkInvite(user, board);
-    }
-
-    private void checkInvite(User user, Board board) {
-       Invite invite = inviteRepository.findByBoardAndUser(board, user).orElseThrow(
-               ()-> new CustomException(ErrorCode.NOT_INVITE)
-       );
+        boolean isInvited = inviteRepository.findByBoardAndUser(board, user).isPresent();
+        if (!isInvited) {
+            throw new CustomException(ErrorCode.NOT_PERMISSION);
+        }
     }
 
     public Board checkBoard(Long boardId){
