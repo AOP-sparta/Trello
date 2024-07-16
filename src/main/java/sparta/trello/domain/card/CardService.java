@@ -39,7 +39,7 @@ public class CardService {
 
         Board board = checkBoard(boardId);
 
-        checkInvite(user, board);
+        availableCheck(board, user);
 
         Card card = Card.builder()
                 .status(status)
@@ -62,7 +62,7 @@ public class CardService {
 
         User user = principal.getUser();
         Board board = checkBoard(boardId);
-        checkInvite(user, board);
+        availableCheck(board, user);
 
         List<Card> cardList = cardRepository.findBySearchCond(boardId, searchCond);
 
@@ -74,7 +74,7 @@ public class CardService {
     public FindCardResponseDto findCard(Long cardId, Long boardId, User user) {
         Board board = checkBoard(boardId);
 
-        checkInvite(user, board);
+        availableCheck(board, user);
 
         Card card = checkCard(cardId);
 
@@ -84,7 +84,7 @@ public class CardService {
     public void deleteCard(Long boardId, Long cardId, User user) {
         Board board = checkBoard(boardId);
 
-        checkInvite(user, board);
+        availableCheck(board, user);
 
         Card card = checkCard(cardId);
 
@@ -97,7 +97,7 @@ public class CardService {
 
     public CardUpdateResponseDto updateCard(Long boardId, Long cardId, CardUpdateRequestDto requestDto, User user) {
         Board board = checkBoard(boardId);
-        checkInvite(user, board);
+        availableCheck(board, user);
 
         Card card = checkCard(cardId);
 
@@ -131,6 +131,14 @@ public class CardService {
            cardRepository.save(card);
         }
 
+    }
+
+    private void availableCheck(Board board, User user) {
+        if(!board.getUser().equals(user)){
+            throw new CustomException(ErrorCode.NOT_PERMISSION);
+        }
+
+        checkInvite(user, board);
     }
 
     private void checkInvite(User user, Board board) {

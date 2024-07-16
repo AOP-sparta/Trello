@@ -45,6 +45,7 @@ public enum ErrorCode {
 
 
     // Board
+    NOT_PERMISSION(HttpStatus.FORBIDDEN, "사용할 수 없습니다."),
     FORBIDDEN_BOARD(HttpStatus.FORBIDDEN, "해당 보드 권한이 없습니다."),
     NOT_INVITE(HttpStatus.NOT_ACCEPTABLE, "초대되지 않은 유저 입니다."),
     BAD_INVITE(HttpStatus.BAD_REQUEST, "이미 해당 보드에 초대한 유저입니다.");
